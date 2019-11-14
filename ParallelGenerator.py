@@ -178,9 +178,7 @@ def Generator_Set_Generator(Base_A_Value, Num_Relative_Primes):
 
 #Cleaning_Script(Generator_Set_File_Path)
 Generator_Set_Generator(Base_A_Value, Num_Relative_Primes)
-for i in range (0,(Number_To_Generate//24)-1):
-    pathTuple = (Generator_Set_File_Path+str(i), Generator_Set_File_Path+str(i)+'/'+'outdeltas'+str(i)+'.txt')
-    GapCaller(pathTuple)
+
 
 
 
