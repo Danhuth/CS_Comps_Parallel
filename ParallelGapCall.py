@@ -44,7 +44,7 @@ def GapCaller(pathTuple):# Need to bump this to a tuple of two objects and then 
     Generator_Set_File_Path = pathTuple[0]
     Out_File_Path = pathTuple[1]
     Out_File = open(Out_File_Path, 'w+')
-    Gap_Path = r'/Users/dhuth/Desktop/gap-4.10.1/./bin/gap.sh -o 9g -K 8g'
+    Gap_Path = r'/home/dhuth/CS_Comps_Parallel/.git/gap-4.10.2/./bin/gap.sh -o 9g -K 8g'
     Progress_Check_Iterator = 0
     for filename in os.listdir(Generator_Set_File_Path):
         Progress_Check_Iterator += 1
