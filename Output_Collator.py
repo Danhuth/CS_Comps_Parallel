@@ -6,13 +6,8 @@ def Output_Collator(filePath):
     count = 0
     finalOutput = open("Collated_Output.txt",'w+')
     with open(filePath) as f:
-        for line in f:
-            match = re.search('(?<=gap> ).*(\d+)', line)
-            print(match.group(1), type(match.group(1)))
-            if match:
-                if(count%2 == 0):
-                    boundruntimestring.join(str(match.group(0)))
-                if(count%2 != 0):
-                    boundruntimestring.join(','+str(match.group(0))+'\n')
-                count+=1
-    finalOutput.write(boundruntimestring)
+        data = f.read()
+        match = re.findall('gap>\s+(\d+)\s+gap>\s+(\d+)', data)
+        print(match)
+    for i in range(len(match)):
+        finalOutput.write(str(match[i])+'\n')
