@@ -66,7 +66,7 @@ def Generator_Set_Generator(Base_A_Value, Num_Relative_Primes):
     Generator_Style_Case = int(input(' Enter 1 to test the <a,b,kb, kb^2> case: \n Enter 2 to test the <a^2, ab,b^2, S> \n Enter 3 to test the <a^2, ab, b^2, ia^2 + jab + kb^2> with mod conditions case \n Enter 4 to test the <a^3, a^2b,ab^2,b^3, S cubic term> case\n Here: '))
     
     if(Generator_Style_Case ==1):
-        file = open(Generator_Set_Filename,'w')
+        #file = open(Generator_Set_Filename,'w')
         Lower_Bound_Of_X2 = int(input('input K bound lower\n Here: '))
         Upper_Bound_Of_X2 = int(input('input K bound upper\n Here: '))
         if((Upper_Bound_Of_X2 - Lower_Bound_Of_X2)*len(List_Of_A_Relative_Primes)< Number_To_Generate):
@@ -75,24 +75,21 @@ def Generator_Set_Generator(Base_A_Value, Num_Relative_Primes):
             Upper_Bound_Of_X2 = int(input('input a new K upper bound Here: '))
         X2_List = range(Lower_Bound_Of_X2, Upper_Bound_Of_X2)
         AllGenSets = []
+        if not (os.path.exists(Generator_Set_File_Path)):
+            os.makedirs(Generator_Set_File_Path)
         for i in range(0, len(List_Of_A_Relative_Primes)):
             for j in range(0, len(X2_List)):
                     AllGenSets.append((Base_A_Value, List_Of_A_Relative_Primes[i], X2_List[j]*List_Of_A_Relative_Primes[i]))
-        SetsToTest = random.sample(AllGenSets, Number_To_Generate) 
-        corenumber = str(0)
-        for i in range(len(SetsToTest)):
-            if(i%24 == 0):
-                corenumber = str(i//24)
-                if not (os.path.exists(Generator_Set_File_Path+corenumber)):
-                    os.makedirs(Generator_Set_File_Path+corenumber)
-                output_filename = '/outdeltas'+corenumber+'.txt'
-                outputfile = open(Generator_Set_File_Path+corenumber+output_filename,'w')
-                outputfile.close()
-            
+                    #file = open(Generator_Set_File_Path+'/'+Generator_Set_Filename+iteratorstring+'.g','w')
+        SetsToTest = random.sample(AllGenSets,Number_To_Generate)
+        for i in range(0,len(SetsToTest)):
             iteratorstring = str(i)
-            file = open(Generator_Set_File_Path+corenumber+'/'+Generator_Set_Filename+iteratorstring+'.g','w')
+            file = open(Generator_Set_File_Path+'/'+Generator_Set_Filename+iteratorstring+'.g','w')
             S = Format_For_Gap_With_Bound(SetsToTest[i])
             file.write(S)
+        output_filename = '/outdeltas.txt'
+        outputfile = open(Generator_Set_File_Path+output_filename,'w')
+        outputfile.close()
 
     if(Generator_Style_Case == 2):
         file = open(Generator_Set_Filename,'w')
@@ -178,9 +175,9 @@ def Generator_Set_Generator(Base_A_Value, Num_Relative_Primes):
 
 #Cleaning_Script(Generator_Set_File_Path)
 Generator_Set_Generator(Base_A_Value, Num_Relative_Primes)
-for i in range (0,(Number_To_Generate//24)-1):
-    pathTuple = (Generator_Set_File_Path+str(i), Generator_Set_File_Path+str(i)+'/'+'outdeltas'+str(i)+'.txt')
-    GapCaller(pathTuple)
+#for i in range (0,(Number_To_Generate//24)-1):
+#    pathTuple = (Generator_Set_File_Path+str(i), Generator_Set_File_Path+str(i)+'/'+'outdeltas'+str(i)+'.txt')
+#    GapCaller(pathTuple)
 
 
 

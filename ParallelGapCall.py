@@ -1,7 +1,9 @@
 from clusterun import *
 import subprocess
 import os
+import time
 import re
+from pathlib import Path
 from Output_Collator import Output_Collator
 #from Cleaning_Script import Cleaning_Script
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -43,30 +45,32 @@ def dictFormat(Generator_Set_File, Delta_Set_File, timerun):
 def GapCaller(pathTuple):# Need to bump this to a tuple of two objects and then separate
     Out_File_Path = os.getcwd()+'/outputfile'
     Out_File = open(Out_File_Path, 'w+') 
-    print(Out_File_Path, "= outfilepath")
     Generator_Set_File_Path = pathTuple
-    print(Generator_Set_File_Path)
     Gap_Path = "/home/dhuth/gap-4.10.2/bin/gap.sh -o 9g -K 8g"
     Progress_Check_Iterator = 0
-    for filename in os.listdir(Generator_Set_File_Path):
-        Progress_Check_Iterator += 1
-        if filename.endswith('.g'):
-            file = open(Generator_Set_File_Path+'/'+filename, 'r+')
-            subprocess.run(Gap_Path, shell=True, stdin=file, stdout=Out_File)
-            print(Progress_Check_Iterator)
-    Output_Collator(Out_File_Path)
+    #pathlist = Path('/home/dhuth/CS_Comps_Parallel/Generator_Storage_Folder/').glob('*.g')
+# was just interating through this with for file in os.listdir(the filepath in Path):
+    #for path in pathlist:
+    Progress_Check_Iterator += 1
+    file = open(pathTuple, 'r+')
+    subprocess.run(Gap_Path, shell=True, stdin=file, stdout=Out_File)
+    #Output_Collator(Out_File_Path)
 
 def parameters():
-    generator_set_list = []
     #construct list of generator set folders.
     #Now we have the top level _folders_
     #parallelgapcall handles digging the files out of these directories
-    for i in range(0,10):
-        generator_storage_i = os.getcwd()+"/Generator_Storage_Folder"+str(i)
-        generator_set_list.append(generator_storage_i)
+    generator_set_list = []
+    i = 0
+    for filename in os.listdir('/home/dhuth/CS_Comps_Parallel/Generator_Storage_Folder'):
+        generator_set_list.append(os.getcwd()+'/Generator_Storage_Folder/'+filename)
     return(generator_set_list)
 
 def main():
+    finaltime = 0
+    starttime = time.time()
     sequencerun(GapCaller,parameters)
+    endtime = time.time()
+    print("the total run time is: "+ str(endtime-starttime))
 if __name__ == '__main__':
     main()
